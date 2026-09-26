@@ -30,10 +30,12 @@ afterwards to wire Claude Code and Codex to the approval panel; it can also link
 
 ### Notes
 
-- **Xcode is a build dependency, not the Command Line Tools.** A Command Line Tools-only build
-  fails: `external macro implementation type 'SwiftUIMacros.StateMacro' could not be found for
-  macro 'State()'; plugin for module 'SwiftUIMacros' not found`. The SwiftUI macro plugins ship
-  only with Xcode, so the formula depends on `xcode: ["26.0", :build]` rather than
+- **Xcode is a build dependency, not the Command Line Tools.** The Command Line Tools with the
+  macOS 27 SDK fail: `external macro implementation type 'SwiftUIMacros.StateMacro' could not be
+  found for macro 'State()'; plugin for module 'SwiftUIMacros' not found`, because that SDK's
+  SwiftUI expands `@State` through a compiler plugin that ships only with Xcode. The same Command
+  Line Tools with the macOS 26.5 SDK build it, but Homebrew cannot know which SDK a user's Command
+  Line Tools default to, so the formula depends on `xcode: ["26.0", :build]` rather than
   `uses_from_macos "swift"`.
 - **`--disable-sandbox`.** Homebrew already builds formulae inside its own sandbox, and SwiftPM's
   own `sandbox-exec` cannot nest inside it, so `swift build` is invoked with `--disable-sandbox`.
