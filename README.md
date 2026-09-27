@@ -26,39 +26,35 @@ brew install gord1y/tap/countersign
 This installs the `countersign` CLI at `$(brew --prefix)/bin/countersign` and the menu-bar
 companion at `$(brew --prefix)/opt/countersign/Countersign.app`. Run `countersign setup`
 afterwards to wire Claude Code, Codex, Cursor and Antigravity to the approval panel; it can also
-link the app into
-`~/Applications` for you.
+link the app into `~/Applications` for you.
 
 ### Notes
 
-- **Xcode is a build dependency, not the Command Line Tools.** The Command Line Tools with the
-  macOS 27 SDK fail: `external macro implementation type 'SwiftUIMacros.StateMacro' could not be
-  found for macro 'State()'; plugin for module 'SwiftUIMacros' not found`, because that SDK's
-  SwiftUI expands `@State` through a compiler plugin that ships only with Xcode. The same Command
-  Line Tools with the macOS 26.5 SDK build it, but Homebrew cannot know which SDK a user's Command
-  Line Tools default to, so the formula depends on `xcode: ["26.0", :build]` rather than
-  `uses_from_macos "swift"`.
-- **`--disable-sandbox`.** Homebrew already builds formulae inside its own sandbox, and SwiftPM's
-  own `sandbox-exec` cannot nest inside it, so `swift build` is invoked with `--disable-sandbox`.
-- **The app bundle carries a copy of the binary, not a symlink.** `codesign` rejects a symlinked
-  main executable, so the built binary is copied into `Countersign.app/Contents/MacOS/countersign`
-  before `bin.install` moves the original into `bin/`.
+- **Installs a prebuilt release, not a build.** `url` points at the universal (`arm64` +
+  `x86_64`) tarball the main repo's `release.yml` publishes for each tag, so `brew install`
+  downloads `countersign` and `Countersign.app` already built and ad-hoc signed. Nothing is
+  compiled on the Mac running `brew install`, and no Xcode is required.
+- **A formula, not a cask.** Homebrew only quarantines files a cask installs; a formula's
+  downloads never get `com.apple.quarantine`, so the ad-hoc signed binary and app run without a
+  Gatekeeper prompt. A cask would sit quarantined and blocked until the app is notarized.
 - **`skip_clean "Countersign.app"`.** Homebrew's keg cleaner removes empty directories after
   install, which would strip the bundle's empty `Contents/Resources/`. `skip_clean` keeps the
   signed bundle exactly as it was signed.
-- **The app's version comes from the binary, not a hardcoded string.** `Info.plist` ships with a
-  placeholder `0.0.0`; install asks the freshly built binary for `--version` and writes that into
-  `CFBundleShortVersionString` and `CFBundleVersion`, so a HEAD build's bundle version and its
-  `countersign --version` output can never drift apart.
 
 ### Releasing a new version
 
-1. Bump `url` in `Formula/countersign.rb` to the new tag.
-2. Compute the new `sha256`: `curl -fsSL <url> | shasum -a 256`.
-3. Open a pull request so `brew test-bot` builds bottles for it.
-4. Once the pull request is green, run the `brew pr-pull` workflow (`publish.yml`) with the pull
-   request number to publish the bottles.
+1. Wait for the main repo's `release.yml` to publish `countersign-<version>-macos.tar.gz` on the
+   GitHub release for the tag.
+2. Bump `url` in `Formula/countersign.rb` to that release asset.
+3. Compute the new `sha256`: `curl -fsSL <url> | shasum -a 256`, and set it in the formula.
+4. Commit and push.
 
-The `sha256` shipped for `v0.1.0` is 64 zeros, a placeholder for a tag that does not exist yet. It
-can only ever fail loudly, as a checksum mismatch, and must be replaced with the real value before
-this tap is ever pushed.
+No bottles are built or published for this formula: `url` already points at a prebuilt binary, so
+there is nothing for `brew test-bot` to bottle and nothing for a `brew pr-pull` workflow to
+publish. `publish.yml`, the generated `brew pr-pull` workflow, has been removed. `tests.yml` still
+runs `brew test-bot --only-formulae` to install and test the formula, without the bottle-artifact
+upload step it no longer needs.
+
+The `sha256` shipped for `v0.1.0` is 64 zeros, a placeholder for a release asset that does not
+exist yet. It can only ever fail loudly, as a checksum mismatch, and must be replaced with the
+real value before this tap is ever pushed.
