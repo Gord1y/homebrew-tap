@@ -1,5 +1,5 @@
 class Countersign < Formula
-  desc "Native approval panel for Claude Code and Codex permission requests"
+  desc "Native approval panel for Claude Code, Codex, Cursor and Antigravity"
   homepage "https://github.com/Gord1y/countersign"
   url "https://github.com/Gord1y/countersign/archive/refs/tags/v0.1.0.tar.gz"
   sha256 "0000000000000000000000000000000000000000000000000000000000000000"
@@ -34,7 +34,7 @@ class Countersign < Formula
 
   def caveats
     <<~EOS
-      Run `countersign setup` to wire Claude Code and Codex to the approval panel.
+      Run `countersign setup` to wire Claude Code, Codex, Cursor and Antigravity to the approval panel.
 
       The menu-bar app is installed at:
         #{opt_prefix}/Countersign.app
