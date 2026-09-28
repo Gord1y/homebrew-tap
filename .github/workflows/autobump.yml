@@ -1,4 +1,3 @@
-# brew tap-new uses this file to generate an autobump workflow for the new tap
 name: brew bump
 
 on:
@@ -8,7 +7,6 @@ on:
     paths:
       - .github/workflows/autobump.yml
   schedule:
-    # Every day at 7:35 UTC
     - cron: 35 7 * * *
 
 permissions: {}
