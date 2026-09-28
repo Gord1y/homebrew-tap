@@ -23,10 +23,10 @@ brew "<formula>"
 brew install gord1y/tap/countersign
 ```
 
-This installs the `countersign` CLI at `$(brew --prefix)/bin/countersign` and the menu-bar
-companion at `$(brew --prefix)/opt/countersign/Countersign.app`. Run `countersign setup`
-afterwards to wire Claude Code, Codex, Cursor and Antigravity to the approval panel; it can also
-link the app into `~/Applications` for you.
+This installs the `countersign` CLI at `$(brew --prefix)/bin/countersign` and the optional
+menu-bar companion at `$(brew --prefix)/opt/countersign/Countersign.app`; the CLI works without
+it. Run `countersign setup` afterwards to wire Claude Code, Codex, Cursor and Antigravity to the
+approval panel; the Settings window it opens can also link the app into `~/Applications`.
 
 ### Notes
 
@@ -54,7 +54,3 @@ there is nothing for `brew test-bot` to bottle and nothing for a `brew pr-pull` 
 publish. `publish.yml`, the generated `brew pr-pull` workflow, has been removed. `tests.yml` still
 runs `brew test-bot --only-formulae` to install and test the formula, without the bottle-artifact
 upload step it no longer needs.
-
-The `sha256` shipped for `v0.1.0` is 64 zeros, a placeholder for a release asset that does not
-exist yet. It can only ever fail loudly, as a checksum mismatch, and must be replaced with the
-real value before this tap is ever pushed.

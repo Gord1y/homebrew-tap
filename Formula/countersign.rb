@@ -2,7 +2,7 @@ class Countersign < Formula
   desc "Native approval panel for Claude Code, Codex, Cursor and Antigravity"
   homepage "https://github.com/Gord1y/countersign"
   url "https://github.com/Gord1y/countersign/releases/download/v0.1.0/countersign-0.1.0-macos.tar.gz"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  sha256 "c12bf3a3a21d5a6ff8f5af80b46825e452c1887bac8595cc3490d8231b75b81e"
   license "GPL-3.0-only"
 
   depends_on macos: :sonoma
@@ -18,9 +18,9 @@ class Countersign < Formula
     <<~EOS
       Run `countersign setup` to wire Claude Code, Codex, Cursor and Antigravity to the approval panel.
 
-      The menu-bar app is installed at:
+      The menu-bar app is optional: the command-line tool works without it. It is at:
         #{opt_prefix}/Countersign.app
-      `countersign setup` can link it into ~/Applications for you.
+      The Settings window `countersign setup` opens can link it into ~/Applications.
     EOS
   end
 
