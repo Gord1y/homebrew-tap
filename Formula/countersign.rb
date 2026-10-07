@@ -1,8 +1,8 @@
 class Countersign < Formula
   desc "Native approval panel for Claude Code, Codex, Cursor and Antigravity"
   homepage "https://github.com/Gord1y/countersign"
-  url "https://github.com/Gord1y/countersign/releases/download/v0.3.0/countersign-0.3.0-macos.tar.gz"
-  sha256 "7b5009cbe94ae34ae720a7ba5759973da4f5d5b3377fa7f40097b219ffe29835"
+  url "https://github.com/Gord1y/countersign/releases/download/v0.3.1/countersign-0.3.1-macos.tar.gz"
+  sha256 "172e792509863d9518a257443d287eb439743c2703ec7ec9435ed7bfdb9280ce"
   license "GPL-3.0-only"
 
   depends_on macos: :sonoma
