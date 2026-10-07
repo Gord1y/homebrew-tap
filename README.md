@@ -26,7 +26,8 @@ brew install gord1y/tap/countersign
 This installs the `countersign` CLI at `$(brew --prefix)/bin/countersign` and the optional
 menu-bar companion at `$(brew --prefix)/opt/countersign/Countersign.app`; the CLI works without
 it. Run `countersign setup` afterwards to wire Claude Code, Codex, Cursor and Antigravity to the
-approval panel; the Settings window it opens can also link the app into `~/Applications`.
+approval panel. To find the app in Spotlight, run `countersign settings` and copy it into
+`~/Applications` from App; that copy updates itself after `brew upgrade`.
 
 ### Notes
 
